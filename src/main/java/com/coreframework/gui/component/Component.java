@@ -21,6 +21,7 @@ public abstract class Component extends Gui
 {
 	/**
 	 * A list of all the component.
+	 *
 	 */
 	private static final List<Component> components = new ArrayList<Component>();
 
