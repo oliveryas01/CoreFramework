@@ -3,6 +3,7 @@ package com.coreframework.gui.component;
 import java.util.List;
 import java.util.ArrayList;
 
+import com.coreframework.gui.event.Event;
 import net.minecraft.client.Minecraft;
 
 import net.minecraft.client.gui.Gui;
@@ -194,6 +195,31 @@ public abstract class Component extends Gui
 		return component;
 	}
 
+	@Event
+	protected void onMoved(final int oldX, final int oldY, final int newX, final int newY) {}
+
+	@Event
+	protected void onResized(final int oldWidth, final int oldHeight, final int newWidth, final int newHeight) {}
+
+	@Event
+	protected void onShown() {}
+	@Event
+	protected void onHidden() {}
+
+	@Event
+	protected void onMousePressed(final int x, final int y, final int button) {}
+	@Event
+	protected void onMouseReleased(final int x, final int y, final int button) {}
+	@Event
+	protected void onMouseDragged(final int x, final int y, final int button) {}
+	@Event
+	protected void onMouseWheelMoved(final int wheelRotation) {}
+
+	@Event
+	protected void onKeyPressed(final char character, final int key) {}
+	@Event
+	protected void onKeyReleased(final char character, final int key) {}
+
 	/**
 	 * Get the component's parent.
 	 *
@@ -251,7 +277,11 @@ public abstract class Component extends Gui
 	 */
 	public final void setX(final int x)
 	{
+		final int oldX = this.x;
+
 		this.x = x;
+
+		onMoved(oldX, y, x, y);
 	}
 
 	/**
@@ -271,7 +301,11 @@ public abstract class Component extends Gui
 	 */
 	public final void setY(final int y)
 	{
+		final int oldY = this.y;
+
 		this.y = y;
+
+		onMoved(x, oldY, x, y);
 	}
 
 	/**
@@ -291,7 +325,11 @@ public abstract class Component extends Gui
 	 */
 	public final void setWidth(final int width)
 	{
+		final int oldWidth = this.width;
+
 		this.width = width;
+
+		onResized(oldWidth, height, width, height);
 	}
 
 	/**
@@ -311,7 +349,11 @@ public abstract class Component extends Gui
 	 */
 	public final void setHeight(final int height)
 	{
+		final int oldHeight = this.height;
+
 		this.height = height;
+
+		onResized(width, oldHeight, width, height);
 	}
 
 	/**
@@ -351,6 +393,18 @@ public abstract class Component extends Gui
 	 */
 	public final void setVisible(final boolean visible)
 	{
+		final boolean oldVisible = this.visible;
+
 		this.visible = visible;
+
+		if(visible != oldVisible)
+		{
+			if(visible)
+			{
+				onShown();
+			} else {
+				onHidden();
+			}
+		}
 	}
 }
