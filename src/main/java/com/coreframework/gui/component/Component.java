@@ -20,6 +20,11 @@ import com.coreframework.gui.panel.Panel;
 public abstract class Component extends Gui
 {
 	/**
+	 * A list of all the component.
+	 */
+	private static final List<Component> components = new ArrayList<Component>();
+
+	/**
 	 * Constructs a Component.
 	 *
 	 * @param name The name of the component.
@@ -103,11 +108,6 @@ public abstract class Component extends Gui
 	 * The visibility of the component.
 	 */
 	protected boolean visible = true;
-
-	/**
-	 * A list of all the component names used.
-	 */
-	private static final List<Component> components = new ArrayList<Component>();
 
 	/**
 	 * The initialization method.
