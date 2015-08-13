@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 import com.coreframework.CoreFramework;
 
 /**
@@ -87,73 +90,61 @@ public final class CSSParser
 	 */
 	public void parse(final InputStream file)
 	{
-		final String[] lines = new Scanner(file).useDelimiter("\\Z").next().replaceAll(";", "").split("\n");
+		final String fileContent = new Scanner(file).useDelimiter("\\Z").next();
 
-		for(int i = 0; i < lines.length; i++)
+		final Pattern patternSelector = Pattern.compile("[\\.](.*)[\\s]?[\\n]?[\\{]", Pattern.MULTILINE);
+		final Pattern patternSelectorContent = Pattern.compile("[\\.](.*?)[\\s]?[\\n]?\\{(\\s.*?)\\}", Pattern.DOTALL);
+
+		final Matcher matcherSelector = patternSelector.matcher(fileContent);
+		final Matcher matcherSelectorContent = patternSelectorContent.matcher(fileContent);
+
+		while(matcherSelector.find())
 		{
-			lines[i] = lines[i].replaceAll("\\s+", "");
-		}
-
-		CSSSelector selector = null;
-
-		for(int i = 0; i < lines.length; i++)
-		{
-			final String line = lines[i];
-
-			if(CoreFramework.debugMode)
+			if(matcherSelectorContent.find())
 			{
-				System.out.println("Parsing line #" + i + ":");
-				System.out.println("\tContent=" + line);
-				System.out.print("\tType=");
-			}
+				String element = matcherSelector.group(matcherSelector.groupCount());
+				String content = matcherSelectorContent.group(matcherSelectorContent.groupCount());
 
-			if(line.startsWith(".") && line.endsWith("{"))
-			{
-				if(CoreFramework.debugMode)
-				{
-					System.out.println("Start Selector");
-				}
+				element = element.replaceAll("\\s+", "");
+				content = content.replaceAll("\\s\\s", "");
 
-				final String selectorLine = line.substring(1, line.length() - 1);
-				final String selectorLineWithPseudoClass[] = selectorLine.split(":");
+				final String[] elementSplit = element.split(":");
+				final String pseudoClass;
 
-				switch(selectorLineWithPseudoClass.length)
+				element = elementSplit[0];
+
+				switch(elementSplit.length)
 				{
 					case 1:
-						selector = new CSSSelector(selectorLine);
+						pseudoClass = null;
 						break;
 					case 2:
-						selector = new CSSSelector(selectorLine, selectorLineWithPseudoClass[1]);
+						pseudoClass = elementSplit[1];
+						break;
+					default:
+						throw new CSSParserException("Error parsing CSS.");
 				}
-			} else if(line.equals("}")) {
-				if(CoreFramework.debugMode)
-				{
-					System.out.println("End Selector");
-				}
-
-				selector = null;
-			} else
-
-			if(selector != null && !line.equals(""))
-			{
-				if(CoreFramework.debugMode)
-				{
-					System.out.println("Declaration");
-					System.out.println("\tDeclaration:");
-				}
-
-				final String[] declaration = line.split(":");
 
 				if(CoreFramework.debugMode)
 				{
-					System.out.println("\t\tProperty=" + declaration[0]);
-					System.out.println("\t\tValue=" + declaration[1]);
+					System.out.println("SELECTOR=[element=" + element + ((pseudoClass == null) ? "" : ",pseudoClass=" + pseudoClass) + "]");
 				}
 
-				if(isValidProperty(declaration[0]))
+				final String[] declarations = content.split(";");
+
+				for(final String declaration : declarations)
 				{
-					selector.addDeclaration(new CSSDeclaration(declaration[0], declaration[1], ""/* TODO: getDefaultValueForProperty(declaration[0]) */));
+					final String[] declarationSplit = declaration.split(":[\\s]?");
+					final String property = declarationSplit[0];
+					final String value = declarationSplit[1];
+
+					if(CoreFramework.debugMode)
+					{
+						System.out.println("\tDECLARATION=[property=" + property + ",value=" + value + "]");
+					}
 				}
+			} else {
+				throw new CSSParserException("Invalid CSS file.");
 			}
 		}
 	}
