@@ -9,12 +9,20 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 
 /**
- * TODO: Javadoc.
+ * The event handler for CoreFramework's built in configuration.
  */
 final class CoreFrameworkConfigEventHandler
 {
+	/**
+	 * Constructs a CoreFrameworkConfigEventHandler.
+	 */
 	public CoreFrameworkConfigEventHandler() {}
 
+	/**
+	 * When a configuration value is changed.
+	 *
+	 * @param event Configuration changed event.
+	 */
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
 	public void onConfigurationChanged(final ConfigChangedEvent.OnConfigChangedEvent event)
