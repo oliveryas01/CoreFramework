@@ -1,18 +1,27 @@
 package com.coreframework;
 
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+
 import net.minecraftforge.common.config.Configuration;
+
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Main mod file.
  *
  * @author oliveryas01
  */
-@Mod(modid = CoreFramework.MODID, name = CoreFramework.NAME, version = CoreFramework.VERSION)
+@Mod(modid = CoreFramework.MODID, name = CoreFramework.NAME, version = CoreFramework.VERSION, guiFactory = "com." + CoreFramework.MODID + "." + CoreFramework.NAME + "GuiFactory")
 public final class CoreFramework
 {
 	/**
@@ -36,8 +45,6 @@ public final class CoreFramework
 	@Mod.Instance(NAME)
 	public static CoreFramework instance;
 
-	public Configuration configuration;
-
 	/**
 	 * Setup CoreFramework for it's initialization.
 	 *
@@ -50,9 +57,7 @@ public final class CoreFramework
 
 		configuration.load();
 
-		// TODO: Configuration.
-
-		configuration.save();
+		syncConfig();
 	}
 
 	/**
@@ -63,6 +68,32 @@ public final class CoreFramework
 	@Mod.EventHandler
 	public void init(final FMLInitializationEvent event)
 	{
-		// TODO.
+		FMLCommonHandler.instance().bus().register(this);
+	}
+
+	public static Configuration configuration;
+
+	public String mySettings1;
+	public String mySettings2;
+
+	private void syncConfig()
+	{
+		mySettings1 = configuration.getString("mySetting1", Configuration.CATEGORY_GENERAL, "How are you?", "");
+		mySettings2 = configuration.getString("mySetting2", Configuration.CATEGORY_GENERAL, "I'm great, how about you?", "");
+
+		if(configuration.hasChanged())
+		{
+			configuration.save();
+		}
+	}
+
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
+	public void onConfigurationChanged(final ConfigChangedEvent.OnConfigChangedEvent event)
+	{
+		if(event.modID.equals(MODID))
+		{
+			syncConfig();
+		}
 	}
 }
