@@ -2,6 +2,7 @@ package com.coreframework.css;
 
 import java.io.InputStream;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -26,6 +27,45 @@ public final class CSSParser
 
 		parser.parse(CoreFramework.class.getClassLoader().getResourceAsStream("css/Gravel.css"));
 	}
+	
+	public static final String[] validProperties = {
+			"color",
+			"background-color",
+			"border",
+			"border-color",
+			"border-style",
+			"border-width",
+			"border-top-color",
+			"border-top-style",
+			"border-top-width",
+			"border-bottom-color",
+			"border-bottom-style",
+			"border-bottom-width",
+			"border-left-color",
+			"border-left-style",
+			"border-left-width",
+			"border-right-color",
+			"border-right-style",
+			"border-right-width",
+			"padding",
+			"padding-top",
+			"padding-bottom",
+			"padding-left",
+			"padding-right",
+			"visibility",
+			"vertical-align",
+			"letter-spacing",
+			"line-height",
+			"tab-size",
+			"text-align",
+			"text-decoration",
+			"text-decoration-color",
+			"text-decoration-line",
+			"text-decoration-style",
+			"text-shadow",
+			"direction",
+			"resize"
+	};
 
 	/**
 	 * Constructs a CSSParser.
@@ -110,11 +150,16 @@ public final class CSSParser
 					System.out.println("\t\tValue=" + declaration[1]);
 				}
 
-				// TODO: if(isValidProperty(declaration[0]))
-				//{
-				selector.addDeclaration(new CSSDeclaration(declaration[0], declaration[1], ""/* TODO: getDefaultValueForProperty(declaration[0]) */));
-				//}
+				if(isValidProperty(declaration[0]))
+				{
+					selector.addDeclaration(new CSSDeclaration(declaration[0], declaration[1], ""/* TODO: getDefaultValueForProperty(declaration[0]) */));
+				}
 			}
 		}
+	}
+
+	private boolean isValidProperty(final String property)
+	{
+		return Arrays.asList(validProperties).contains(property);
 	}
 }
