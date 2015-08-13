@@ -63,5 +63,6 @@ public final class CoreFramework
 	@Mod.EventHandler
 	public void init(final FMLInitializationEvent event)
 	{
+		// TODO.
 	}
 }
