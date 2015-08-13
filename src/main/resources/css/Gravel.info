@@ -1,0 +1,66 @@
+/**************************************************
+ * Gravel (Default Theme)                         *
+ *   Made by oliveryas01                          *
+ *                                                *
+ * Permitted declarations:                        *
+ * - color                                        *
+ * - background-color                             *
+ * - border                                       *
+ * - border-color                                 *
+ * - border-style                                 *
+ * - border-width                                 *
+ * - border-top                                   *
+ * - border-top-color                             *
+ * - border-top-style                             *
+ * - border-top-width                             *
+ * - border-bottom                                *
+ * - border-bottom-color                          *
+ * - border-bottom-style                          *
+ * - border-bottom-width                          *
+ * - border-left                                  *
+ * - border-left-color                            *
+ * - border-left-style                            *
+ * - border-left-width                            *
+ * - border-right                                 *
+ * - border-right-color                           *
+ * - border-right-style                           *
+ * - border-right-width                           *
+ * - padding                                      *
+ * - padding-top                                  *
+ * - padding-bottom                               *
+ * - padding-left                                 *
+ * - padding-right                                *
+ * - visibility                                   *
+ * - vertical-align                               *
+ * - letter-spacing                               *
+ * - line-height                                  *
+ * - tab-size                                     *
+ * - text-align                                   *
+ * - text-decoration                              *
+ * - text-decoration-color                        *
+ * - text-decoration-line (= text-decoration)     *
+ * - text-decoration-style                        *
+ * - text-shadow                                  *
+ * - direction                                    *
+ * - resize                                       *
+ *                                                *
+ * Changes:                                       *
+ * - COMMENTS CANNOT GO INSIDE A CSS FILE!!!      *
+ * - The inherit tag inherits the value           *
+ *      from the component's parent.              *
+ * - The initial tag is not valid.                *
+ * - Percentage (##%) tags are not valid.         *
+ * - The inset tag is not valid.                  *
+ * - Only valid values for border-style           *
+ *      are solid, double, dotted,                *
+ *      and dashed                                *
+ * - Only valid values for visibility are         *
+ *      visible and hidden.                       *
+ * - Only valid values for text-align are         *
+ *      left, right, and center.                  *
+ * - Only valid values for vertical-align         *
+ *      are top, bottom, and middle.              *
+ * - Only valid values for text-decoration-       *
+ *      style are solid, double, dotted,          *
+ *      and dashed.                               *
+ **************************************************/
