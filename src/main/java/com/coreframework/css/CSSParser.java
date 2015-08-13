@@ -102,6 +102,8 @@ public final class CSSParser
 		{
 			if(matcherSelectorContent.find())
 			{
+				final CSSSelector selector;
+
 				String element = matcherSelector.group(matcherSelector.groupCount());
 				String content = matcherSelectorContent.group(matcherSelectorContent.groupCount());
 
@@ -117,9 +119,13 @@ public final class CSSParser
 				{
 					case 1:
 						pseudoClass = null;
+
+						selector = new CSSSelector(element);
 						break;
 					case 2:
 						pseudoClass = elementSplit[1];
+
+						selector = new CSSSelector(element, pseudoClass);
 						break;
 					default:
 						throw new CSSParserException("Error parsing CSS.");
@@ -138,11 +144,23 @@ public final class CSSParser
 					final String property = declarationSplit[0];
 					final String value = declarationSplit[1];
 
+					final boolean validProperty = isValidProperty(property);
+
+					if(validProperty)
+					{
+						selector.addDeclaration(new CSSDeclaration(property, value, ""/* TODO: getDefaultPropertyValue(property) */));
+					}
+
 					if(CoreFramework.debugMode)
 					{
-						System.out.println("\tDECLARATION=[property=" + property + ",value=" + value + "]");
+						System.out.println("\tDECLARATION=[property=" + property + ",value=" + value + ",valid=" + validProperty + "]");
 					}
 				}
+
+				// TODO: Is this really necessary?
+				if(selector == null) throw new CSSParserException("Unable to parse selector.");
+
+				selectors.add(selector);
 			} else {
 				throw new CSSParserException("Invalid CSS file.");
 			}
