@@ -44,8 +44,13 @@
  * - direction                                    *
  * - resize                                       *
  *                                                *
- * Changes:                                       *
+ * Parser Notes:                                  *
  * - COMMENTS CANNOT GO INSIDE A CSS FILE!!!      *
+ * - Opening brackets must be placed on same      *
+ *      line as the selector is defined.          *
+ * - Closing brackets must be on the next line.   *
+ *                                                *
+ * Changes:                                       *
  * - The inherit tag inherits the value           *
  *      from the component's parent.              *
  * - The initial tag is not valid.                *
