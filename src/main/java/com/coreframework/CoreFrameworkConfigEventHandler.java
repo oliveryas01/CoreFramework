@@ -11,7 +11,7 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 /**
  * TODO: Javadoc.
  */
-public final class CoreFrameworkConfigEventHandler
+final class CoreFrameworkConfigEventHandler
 {
 	public CoreFrameworkConfigEventHandler() {}
 
