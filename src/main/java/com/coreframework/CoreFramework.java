@@ -6,15 +6,9 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
-import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.common.MinecraftForge;
 
 import net.minecraftforge.common.config.Configuration;
-
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Main mod file.
@@ -53,10 +47,20 @@ public final class CoreFramework
 	@Mod.EventHandler
 	public void preInit(final FMLPreInitializationEvent event)
 	{
+		// Initialize fields.
+
+		coreFrameworkConfigEventHandler = new CoreFrameworkConfigEventHandler();
+
 		configuration = new Configuration(event.getSuggestedConfigurationFile());
 
-		configuration.load();
+		// Register event handlers.
 
+		FMLCommonHandler.instance().bus().register(coreFrameworkConfigEventHandler);
+		MinecraftForge.EVENT_BUS.register(coreFrameworkConfigEventHandler);
+
+		// Setup configuration.
+
+		configuration.load();
 		syncConfig();
 	}
 
@@ -68,15 +72,26 @@ public final class CoreFramework
 	@Mod.EventHandler
 	public void init(final FMLInitializationEvent event)
 	{
-		FMLCommonHandler.instance().bus().register(this);
 	}
 
+	/**
+	 * Event handler for the configuration.
+	 */
+	private CoreFrameworkConfigEventHandler coreFrameworkConfigEventHandler;
+
+	/**
+	 * CoreFramework's configuration.
+	 */
 	public static Configuration configuration;
 
+	// Test settings
 	public String mySettings1;
 	public String mySettings2;
 
-	private void syncConfig()
+	/**
+	 * Update the configuration fields and save if any have changed.
+	 */
+	public void syncConfig()
 	{
 		mySettings1 = configuration.getString("mySetting1", Configuration.CATEGORY_GENERAL, "How are you?", "");
 		mySettings2 = configuration.getString("mySetting2", Configuration.CATEGORY_GENERAL, "I'm great, how about you?", "");
@@ -84,16 +99,6 @@ public final class CoreFramework
 		if(configuration.hasChanged())
 		{
 			configuration.save();
-		}
-	}
-
-	@SideOnly(Side.CLIENT)
-	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
-	public void onConfigurationChanged(final ConfigChangedEvent.OnConfigChangedEvent event)
-	{
-		if(event.modID.equals(MODID))
-		{
-			syncConfig();
 		}
 	}
 }
