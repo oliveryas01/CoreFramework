@@ -47,6 +47,11 @@ public final class CSSSelector
 	 */
 	private final List<CSSDeclaration> declarations;
 
+	/**
+	 * Add a declaration to the list of declarations.
+	 *
+	 * @param declaration A declaration.
+	 */
 	public void addDeclaration(final CSSDeclaration declaration)
 	{
 		declarations.add(declaration);
