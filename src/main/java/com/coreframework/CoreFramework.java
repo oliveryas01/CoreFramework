@@ -104,9 +104,10 @@ public final class CoreFramework
 	 */
 	private CoreFrameworkConfigEventHandler coreFrameworkConfigEventHandler;
 
-	// Test settings
-	public String mySettings1;
-	public String mySettings2;
+	/**
+	 * Whether or not debug mode is enabled.
+	 */
+	public static boolean debugMode;
 
 	// Test key bindings.
 	public static KeyBinding[] keyBindings;
@@ -114,10 +115,9 @@ public final class CoreFramework
 	/**
 	 * Update the configuration fields and save if any have changed.
 	 */
-	public void syncConfig()
+	public static void syncConfig()
 	{
-		mySettings1 = configuration.getString("mySetting1", Configuration.CATEGORY_GENERAL, "How are you?", "");
-		mySettings2 = configuration.getString("mySetting2", Configuration.CATEGORY_GENERAL, "I'm great, how about you?", "");
+		debugMode = configuration.getBoolean("debugMode", Configuration.CATEGORY_GENERAL, false, "`");
 
 		if(configuration.hasChanged())
 		{

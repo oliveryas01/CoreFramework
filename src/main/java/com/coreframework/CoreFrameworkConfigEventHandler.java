@@ -21,7 +21,7 @@ final class CoreFrameworkConfigEventHandler
 	{
 		if(event.modID.equals(CoreFramework.MODID))
 		{
-			CoreFramework.instance.syncConfig();
+			CoreFramework.syncConfig();
 		}
 	}
 }
