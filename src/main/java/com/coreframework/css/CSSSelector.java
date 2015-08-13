@@ -46,4 +46,9 @@ public final class CSSSelector
 	 * A list of all the declarations the selector contains.
 	 */
 	private final List<CSSDeclaration> declarations;
+
+	public void addDeclaration(final CSSDeclaration declaration)
+	{
+		declarations.add(declaration);
+	}
 }
