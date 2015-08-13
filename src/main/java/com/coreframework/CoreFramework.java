@@ -1,14 +1,19 @@
 package com.coreframework;
 
+import net.minecraft.client.settings.KeyBinding;
+
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-import net.minecraftforge.common.MinecraftForge;
-
 import net.minecraftforge.common.config.Configuration;
+
+import org.lwjgl.input.Keyboard;
+
+import com.coreframework.eventhandlers.KeyboardEventHandler;
 
 /**
  * Main mod file.
@@ -47,18 +52,27 @@ public final class CoreFramework
 	@Mod.EventHandler
 	public void preInit(final FMLPreInitializationEvent event)
 	{
-		// Initialize fields.
+		/* Initialize fields */
 
-		coreFrameworkConfigEventHandler = new CoreFrameworkConfigEventHandler();
-
+		// Initialize configuration.
 		configuration = new Configuration(event.getSuggestedConfigurationFile());
 
-		// Register event handlers.
+		// Initialize event handlers.
+		coreFrameworkConfigEventHandler = new CoreFrameworkConfigEventHandler();
+
+		// Initialize key bindings.
+		keyBindings = new KeyBinding[3];
+
+		keyBindings[0] = new KeyBinding("key.test0.desc", Keyboard.KEY_NUMPAD1, "key.coreframework.category");
+		keyBindings[1] = new KeyBinding("key.test1.desc", Keyboard.KEY_NUMPAD2, "key.coreframework.category");
+		keyBindings[2] = new KeyBinding("key.test2.desc", Keyboard.KEY_NUMPAD3, "key.coreframework.category");
+
+		/* Register event handlers */
 
 		FMLCommonHandler.instance().bus().register(coreFrameworkConfigEventHandler);
-		MinecraftForge.EVENT_BUS.register(coreFrameworkConfigEventHandler);
+		FMLCommonHandler.instance().bus().register(new KeyboardEventHandler());
 
-		// Setup configuration.
+		/* Setup configuration */
 
 		configuration.load();
 		syncConfig();
@@ -72,21 +86,29 @@ public final class CoreFramework
 	@Mod.EventHandler
 	public void init(final FMLInitializationEvent event)
 	{
+		// Register key bindings.
+		for(final KeyBinding keyBinding : keyBindings)
+		{
+			ClientRegistry.registerKeyBinding(keyBinding);
+		}
 	}
-
-	/**
-	 * Event handler for the configuration.
-	 */
-	private CoreFrameworkConfigEventHandler coreFrameworkConfigEventHandler;
 
 	/**
 	 * CoreFramework's configuration.
 	 */
 	public static Configuration configuration;
 
+	/**
+	 * Event handler for the configuration.
+	 */
+	private CoreFrameworkConfigEventHandler coreFrameworkConfigEventHandler;
+
 	// Test settings
 	public String mySettings1;
 	public String mySettings2;
+
+	// Test key bindings.
+	public static KeyBinding[] keyBindings;
 
 	/**
 	 * Update the configuration fields and save if any have changed.
