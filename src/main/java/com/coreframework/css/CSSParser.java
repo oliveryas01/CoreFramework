@@ -10,11 +10,16 @@ import com.coreframework.CoreFramework;
 
 /**
  * A class that parses a CSS file.
- *
- * TODO: Javadoc.
  */
 public final class CSSParser
 {
+	/**
+	 * TODO: Remove this method.
+	 *
+	 * Main method for testing the parser.
+	 *
+	 * @param args Program arguments.
+	 */
 	public static void main(final String[] args)
 	{
 		final CSSParser parser = new CSSParser();
@@ -22,13 +27,24 @@ public final class CSSParser
 		parser.parse(CoreFramework.class.getClassLoader().getResourceAsStream("css/Gravel.css"));
 	}
 
+	/**
+	 * Constructs a CSSParser.
+	 */
     public CSSParser()
     {
 		selectors = new ArrayList<CSSSelector>();
     }
 
+	/**
+	 * The list of selectors in the CSS file.
+	 */
 	private final List<CSSSelector> selectors;
 
+	/**
+	 * Parse a CSS file.
+	 *
+	 * @param file The stream to open the CSS file from.
+	 */
 	public void parse(final InputStream file)
 	{
 		final String[] lines = new Scanner(file).useDelimiter("\\Z").next().replaceAll(";", "").split("\n");
