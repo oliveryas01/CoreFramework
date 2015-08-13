@@ -14,6 +14,11 @@ import com.coreframework.gui.color.Color;
 /**
  * A label component object.
  * Renders text on the screen.
+ *
+ * A label is meant to be a child of
+ *    another component. The parent should
+ *    set the x, y, width, and height
+ *    fields.
  */
 @SideOnly(Side.CLIENT)
 public final class Label extends Component
