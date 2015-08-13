@@ -2,12 +2,13 @@ package com.coreframework;
 
 import net.minecraft.client.settings.KeyBinding;
 
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 
 import net.minecraftforge.common.config.Configuration;
 
