@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 
 /**
- * TODO: Javadoc
+ * TODO: Javadoc.
  */
 public final class CoreFrameworkConfigEventHandler
 {
