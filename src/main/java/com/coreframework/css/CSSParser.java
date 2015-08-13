@@ -158,6 +158,12 @@ public final class CSSParser
 		}
 	}
 
+	/**
+	 * Check if the read property is valid.
+	 *
+	 * @param property The read property.
+	 * @return If the read property is valid.
+	 */
 	private boolean isValidProperty(final String property)
 	{
 		return Arrays.asList(validProperties).contains(property);
