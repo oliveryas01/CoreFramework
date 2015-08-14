@@ -1,5 +1,6 @@
 package com.coreframework.gui.component;
 
+import com.coreframework.gui.event.Event;
 import net.minecraft.client.gui.FontRenderer;
 
 import net.minecraft.client.renderer.GlStateManager;
@@ -11,6 +12,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.coreframework.gui.color.Color;
 
+import java.io.InputStream;
+
 /**
  * A label component object.
  * Renders text on the screen.
@@ -21,21 +24,44 @@ import com.coreframework.gui.color.Color;
  *    fields.
  */
 @SideOnly(Side.CLIENT)
-public final class Label extends Component
+public final class Label extends StyledComponent
 {
 	/**
-	 * Constructs a Label.
+	 * Constructs a Label with a specific style.
+	 *
+	 * @param name The name of the component.
+	 * @param text The label's text.
+	 */
+	public Label(final String name, final String text, final InputStream css)
+	{
+		super(name, css);
+
+		if(text == null) throw new IllegalArgumentException("The text cannot be null.");
+
+		setText(text);
+	}
+
+	/**
+	 * Constructs a Label with a specific style.
 	 *
 	 * @param name The name of the component.
 	 * @param text The label's text.
 	 */
 	public Label(final String name, final String text)
 	{
-		super(name);
+		this(name, text, null);
+	}
 
-		if(text == null) throw new IllegalArgumentException("The text cannot be null.");
-
-		setText(text);
+	/**
+	 * Constructs a Label with a specific style.
+	 *
+	 * The label's name will be equal to its text.
+	 *
+	 * @param text The label's text.
+	 */
+	public Label(final String text, final InputStream css)
+	{
+		this(text, text, css);
 	}
 
 	/**
@@ -47,7 +73,7 @@ public final class Label extends Component
 	 */
 	public Label(final String text)
 	{
-		this(text, text);
+		this(text, text, null);
 	}
 
 	/**
@@ -91,19 +117,12 @@ public final class Label extends Component
 	private String text;
 
 	/**
-	 * The label's color.
-	 */
-	private Color color;
-
-	/**
-	 * Whether or not a shadow is rendered.
-	 */
-	private boolean shadow;
-
-	/**
 	 * The font renderer used for rendering and measuring the text.
 	 */
 	private FontRenderer fontRenderer;
+
+	@Event
+	protected void onTextChanged(final String oldText, final String newText) {};
 
 	/**
 	 * Get the label's text.
@@ -122,46 +141,10 @@ public final class Label extends Component
 	 */
 	public void setText(final String text)
 	{
+		final String oldText = this.text;
+
 		this.text = text;
-	}
 
-	/**
-	 * Get the label's color.
-	 *
-	 * @return The label's color.
-	 */
-	public Color getColor()
-	{
-		return color;
-	}
-
-	/**
-	 * Set the label's color.
-	 *
-	 * @param color The label's color.
-	 */
-	public void setColor(final Color color)
-	{
-		this.color = color;
-	}
-
-	/**
-	 * Get whether or not a shadow is rendered.
-	 *
-	 * @return Whether or not a shadow is rendered.
-	 */
-	public boolean isShadow()
-	{
-		return shadow;
-	}
-
-	/**
-	 * Set whether or not a shadow is rendered.
-	 *
-	 * @param shadow Whether or not a shadow is rendered.
-	 */
-	public void setShadow(final boolean shadow)
-	{
-		this.shadow = shadow;
+		onTextChanged(oldText, text);
 	}
 }

@@ -3,7 +3,6 @@ package com.coreframework.gui.component;
 import java.util.List;
 import java.util.ArrayList;
 
-import com.coreframework.gui.event.Event;
 import net.minecraft.client.Minecraft;
 
 import net.minecraft.client.gui.Gui;
@@ -12,6 +11,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.coreframework.gui.panel.Panel;
+
+import com.coreframework.gui.event.Event;
 
 /**
  * The root class that all graphical objects are derived.
@@ -105,11 +106,6 @@ public abstract class Component extends Gui
 	protected boolean enabled = true;
 
 	/**
-	 * The visibility of the component.
-	 */
-	protected boolean visible = true;
-
-	/**
 	 * The initialization method.
 	 *
 	 * This is where a component is initialized.
@@ -200,11 +196,6 @@ public abstract class Component extends Gui
 
 	@Event
 	protected void onResized(final int oldWidth, final int oldHeight, final int newWidth, final int newHeight) {}
-
-	@Event
-	protected void onShown() {}
-	@Event
-	protected void onHidden() {}
 
 	@Event
 	protected void onMousePressed(final int x, final int y, final int button) {}
@@ -374,37 +365,5 @@ public abstract class Component extends Gui
 	public final void setEnabled(final boolean enabled)
 	{
 		this.enabled = enabled;
-	}
-
-	/**
-	 * Get the visibility of the component.
-	 *
-	 * @return The visibility of the component.
-	 */
-	public final boolean isVisible()
-	{
-		return visible;
-	}
-
-	/**
-	 * Set the visibility of the component.
-	 *
-	 * @param visible The visibility of the component.
-	 */
-	public final void setVisible(final boolean visible)
-	{
-		final boolean oldVisible = this.visible;
-
-		this.visible = visible;
-
-		if(visible != oldVisible)
-		{
-			if(visible)
-			{
-				onShown();
-			} else {
-				onHidden();
-			}
-		}
 	}
 }
