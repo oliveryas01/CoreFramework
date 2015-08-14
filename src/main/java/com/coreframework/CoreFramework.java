@@ -16,8 +16,6 @@ import org.lwjgl.input.Keyboard;
 
 import com.coreframework.eventhandlers.KeyboardEventHandler;
 
-import java.util.logging.Level;
-
 /**
  * Main mod file.
  *
@@ -127,13 +125,21 @@ public final class CoreFramework
 		}
 	}
 
+	public static enum Level
+	{
+		INFO,
+		WARNING,
+		ERROR,
+		FATALERROR
+	}
+
 	public static void print(final Object object, final Level level)
 	{
-		System.out.print("[CoreFramework][" + level.getName() + "] " + object);
+		System.out.print("[CoreFramework][" + level.name() + "] " + object);
 	}
 
 	public static void println(final Object object, final Level level)
 	{
-		System.out.println("[CoreFramework][" + level.getName() + "] " + object);
+		System.out.println("[CoreFramework][" + level.name() + "] " + object);
 	}
 }
