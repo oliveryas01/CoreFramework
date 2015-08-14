@@ -107,7 +107,7 @@ public final class CoreFramework
 	/**
 	 * Whether or not debug mode is enabled.
 	 */
-	public static boolean debugMode;
+	public static boolean debugMode = true; // TODO: Remove " = true".
 
 	// Test key bindings.
 	public static KeyBinding[] keyBindings;
