@@ -16,6 +16,8 @@ import org.w3c.css.sac.helpers.ParserFactory;
 
 import com.steadystate.css.sac.DocumentHandlerExt;
 
+import com.steadystate.css.parser.LexicalUnitImpl;
+
 import com.coreframework.CoreFramework;
 
 /**
@@ -36,7 +38,7 @@ public final class CSSParser implements DocumentHandlerExt
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-    public CSSParser() throws IllegalAccessException, InstantiationException, ClassNotFoundException, IOException
+	public CSSParser() throws IllegalAccessException, InstantiationException, ClassNotFoundException, IOException
 	{
 		System.setProperty("org.w3c.css.sac.parser", "com.steadystate.css.parser.SACParserCSS3");
 
@@ -52,6 +54,8 @@ public final class CSSParser implements DocumentHandlerExt
 		parser.setDocumentHandler(this);
 
 		parser.parseStyleSheet(source);
+
+		CoreFramework.println("->\n" + debug.toString(), CoreFramework.Level.DEBUG);
 
 		stream.close();
 	}
@@ -97,6 +101,11 @@ public final class CSSParser implements DocumentHandlerExt
 		currentSelectors = selectorListToArray(selectorList);
 
 		rules.put(currentSelectors, new ArrayList<CSSDeclaration>());
+
+		String selectors = java.util.Arrays.toString(currentSelectors);
+		selectors = selectors.substring(1, selectors.indexOf("]"));
+
+		debug.append(selectors).append("\n");
 	}
 
 	@Override
@@ -104,11 +113,32 @@ public final class CSSParser implements DocumentHandlerExt
 	{
 		final CSSDeclaration declaration = new CSSDeclaration(name, value);
 
-		if(!rules.get(currentSelectors).add(declaration))
+		if(!rules.get(currentSelectors).add(declaration)) throw new CSSParseException("Rule contains a multiple of the same property.", locator);
+
+		debug.append("\t").append(name).append("=");
+
+		LexicalUnitImpl lexicalUnit = (LexicalUnitImpl)value;
+		while(true)
 		{
-			throw new CSSParseException("Rule contains a multiple of the same property.", locator);
+			debug.append(lexicalUnit.toString());
+
+			lexicalUnit = (LexicalUnitImpl)lexicalUnit.getNextLexicalUnit();
+
+			if(lexicalUnit == null)
+			{
+				break;
+			}
+
+			debug.append(" ");
 		}
+
+		debug.append("\n");
 	}
+
+	/**
+	 * StringBuilder for debug messages.
+	 */
+	private final StringBuilder debug = new StringBuilder();
 
 	/**
 	 * The map for all the rules and their declarations.
