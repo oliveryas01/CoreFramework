@@ -136,12 +136,29 @@ public final class CoreFramework
 
 	public static void print(final Object object, final Level level)
 	{
-		System.out.print("[CoreFramework][" + level.name() + "] " + object);
+		if(level.name().equals("DEBUG"))
+		{
+			if(debugMode)
+			{
+				System.out.print("[CoreFramework][" + level.name() + "] " + object);
+			}
+		} else {
+			System.out.print("[CoreFramework][" + level.name() + "] " + object);
+		}
 	}
 
 	public static void println(final Object object, final Level level)
 	{
-		System.out.println("[CoreFramework][" + level.name() + "] " + object);
+
+		if(level.name().equals("DEBUG"))
+		{
+			if(debugMode)
+			{
+				System.out.println("[CoreFramework][" + level.name() + "] " + object);
+			}
+		} else {
+			System.out.println("[CoreFramework][" + level.name() + "] " + object);
+		}
 	}
 
 	public static void print(final Object object)
