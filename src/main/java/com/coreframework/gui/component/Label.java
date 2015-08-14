@@ -95,7 +95,7 @@ public final class Label extends StyledComponent
 	{
 		if(visible)
 		{
-			//GlStateManager.pushMatrix();
+			GlStateManager.pushMatrix();
 			{
 				GlStateManager.enableBlend();
 				GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
@@ -107,7 +107,7 @@ public final class Label extends StyledComponent
 					fontRenderer.drawString(text, xRelative(), yRelative(), color.getRGB());
 				}
 			}
-			//GlStateManager.popMatrix();
+			GlStateManager.popMatrix();
 		}
 	}
 
