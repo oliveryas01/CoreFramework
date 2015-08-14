@@ -89,9 +89,12 @@ public final class Label extends StyledComponent
 
 	/**
 	 * Render the label.
+	 *
+	 * @param mouseX The mouse X coordinate.
+	 * @param mouseY The mouse Y coordinate.
 	 */
 	@Override
-	public void render()
+	public void render(final int mouseX, final int mouseY)
 	{
 		if(visible)
 		{

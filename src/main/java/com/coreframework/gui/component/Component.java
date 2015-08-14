@@ -125,8 +125,11 @@ public abstract class Component extends Gui
 	 *
 	 * This is where a component is rendered.
 	 * Put all OpenGL and other drawing code in here.
+	 *
+	 * @param mouseX The mouse X coordinate.
+	 * @param mouseY The mouse Y coordinate.
 	 */
-	public abstract void render();
+	public abstract void render(final int mouseX, final int mouseY);
 
 	/**
 	 * Calculate the X position relative to its parent's X position.

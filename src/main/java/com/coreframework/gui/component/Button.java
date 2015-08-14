@@ -61,7 +61,7 @@ public final class Button extends StyledComponent
 	}
 
 	@Override
-	public void render()
+	public void render(final int mouseX, final int mouseY)
 	{
 		if(visible)
 		{
@@ -84,7 +84,7 @@ public final class Button extends StyledComponent
 					drawRect(xRelative() + 1, yRelative() + 1, xRelative() + width - 1, yRelative() + height - 1, java.awt.Color.black.getRGB());
 				}
 
-				label.render();
+				label.render(mouseX, mouseY);
 			}
 			GlStateManager.popMatrix();
 		}

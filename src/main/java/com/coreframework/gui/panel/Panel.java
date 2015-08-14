@@ -45,7 +45,7 @@ public final class Panel extends GuiScreen
 	{
 		for(final Component component : components)
 		{
-			component.render();
+			component.render(mouseX, mouseY);
 		}
 	}
 
