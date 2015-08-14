@@ -37,14 +37,60 @@ public abstract class StyledComponent extends Component
 	protected boolean visible = true;
 
 	/**
-	 * The component's color.
+	 * The component's font color.
 	 */
-	protected Color color;
+	protected Color color = Color.black;
+
+	/**
+	 * The component's background color.
+	 */
+	protected Color backgroundColor = Color.transparent;
+
+	/**
+	 * The component's border properties.
+	 */
+	//protected Border border;
+
+	/**
+	 * The component's padding properties.
+	 */
+	//protected Padding padding;
+
+	/**
+	 * The component content's horizontal alignment.
+	 */
+	//protected HorizontalAlignment horizontalAlignment; // text-align.
+
+	/**
+	 * The component content's vertical alignment.
+	 */
+	//protected VerticalAlignment verticalAlignment; // vertical-align.
+
+	/**
+	 * The component's letter spacing.
+	 */
+	//protected LetterSpacing letterSpacing;
+
+	/**
+	 * The component's line height.
+	 */
+	protected int lineHeight = mc.fontRendererObj.FONT_HEIGHT;
+
+	/**
+	 * The component's tab side.
+	 */
+	protected int tabSize = 4;
+
+	//protected TextDecoration textDecoration;
 
 	/**
 	 * Whether or not a shadow is rendered.
 	 */
 	protected boolean shadow;
+
+	protected boolean readFromLeft = true;
+
+	protected boolean canResize = true;
 
 	/**
 	 * Get the visibility of the component.
@@ -76,45 +122,5 @@ public abstract class StyledComponent extends Component
 				onHidden();
 			}
 		}
-	}
-
-	/**
-	 * Get the label's color.
-	 *
-	 * @return The label's color.
-	 */
-	public Color getColor()
-	{
-		return color;
-	}
-
-	/**
-	 * Set the label's color.
-	 *
-	 * @param color The label's color.
-	 */
-	public void setColor(final Color color)
-	{
-		this.color = color;
-	}
-
-	/**
-	 * Get whether or not a shadow is rendered.
-	 *
-	 * @return Whether or not a shadow is rendered.
-	 */
-	public boolean isShadow()
-	{
-		return shadow;
-	}
-
-	/**
-	 * Set whether or not a shadow is rendered.
-	 *
-	 * @param shadow Whether or not a shadow is rendered.
-	 */
-	public void setShadow(final boolean shadow)
-	{
-		this.shadow = shadow;
 	}
 }
