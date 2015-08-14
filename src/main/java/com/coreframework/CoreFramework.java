@@ -142,4 +142,14 @@ public final class CoreFramework
 	{
 		System.out.println("[CoreFramework][" + level.name() + "] " + object);
 	}
+
+	public static void print(final Object object)
+	{
+		print(object, Level.INFO);
+	}
+
+	public static void println(final Object object)
+	{
+		println(object, Level.INFO);
+	}
 }
