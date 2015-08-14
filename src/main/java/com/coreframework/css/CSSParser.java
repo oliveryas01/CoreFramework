@@ -1,180 +1,188 @@
 package com.coreframework.css;
 
 import java.io.InputStream;
+import java.io.StringReader;
+import java.io.IOException;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Scanner;
 
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
+import org.w3c.css.sac.*;
+
+import org.w3c.css.sac.helpers.ParserFactory;
+
+import com.steadystate.css.sac.DocumentHandlerExt;
 
 import com.coreframework.CoreFramework;
 
 /**
  * A class that parses a CSS file.
  */
-public final class CSSParser
+public final class CSSParser implements DocumentHandlerExt
 {
-	/**
-	 * TODO: Remove this method.
-	 *
-	 * Main method for testing the parser.
-	 *
-	 * @param args Program arguments.
-	 */
-	public static void main(final String[] args)
+	public static void main(final String[] args) throws Exception
 	{
-		final CSSParser parser = new CSSParser();
-
-		parser.parse(CoreFramework.class.getClassLoader().getResourceAsStream("css/Gravel.css"));
+		new CSSParser();
 	}
-	
-	public static final String[] validProperties = {
-			"color",
-			"background-color",
-			"border",
-			"border-color",
-			"border-style",
-			"border-width",
-			"border-top-color",
-			"border-top-style",
-			"border-top-width",
-			"border-bottom-color",
-			"border-bottom-style",
-			"border-bottom-width",
-			"border-left-color",
-			"border-left-style",
-			"border-left-width",
-			"border-right-color",
-			"border-right-style",
-			"border-right-width",
-			"padding",
-			"padding-top",
-			"padding-bottom",
-			"padding-left",
-			"padding-right",
-			"visibility",
-			"vertical-align",
-			"letter-spacing",
-			"line-height",
-			"tab-size",
-			"text-align",
-			"text-decoration",
-			"text-decoration-color",
-			"text-decoration-line",
-			"text-decoration-style",
-			"text-shadow",
-			"direction",
-			"resize"
-	};
 
 	/**
-	 * Constructs a CSSParser.
-	 */
-    public CSSParser()
-    {
-		selectors = new ArrayList<CSSSelector>();
-    }
-
-	/**
-	 * The list of selectors in the CSS file.
-	 */
-	private final List<CSSSelector> selectors;
-
-	/**
-	 * Parse a CSS file.
+	 * Default constructor.
 	 *
-	 * @param file The stream to open the CSS file from.
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
+	 * @throws ClassNotFoundException
+	 * @throws IOException
 	 */
-	public void parse(final InputStream file)
+    public CSSParser() throws IllegalAccessException, InstantiationException, ClassNotFoundException, IOException
 	{
-		final String fileContent = new Scanner(file).useDelimiter("\\Z").next();
+		System.setProperty("org.w3c.css.sac.parser", "com.steadystate.css.parser.SACParserCSS3");
 
-		final Pattern patternSelector = Pattern.compile("[\\.](.*)[\\s]?[\\n]?[\\{]", Pattern.MULTILINE);
-		final Pattern patternSelectorContent = Pattern.compile("[\\.](.*?)[\\s]?[\\n]?\\{(\\s.*?)\\}", Pattern.DOTALL);
+		rules = new HashMap<Selector[], List<CSSDeclaration>>();
 
-		final Matcher matcherSelector = patternSelector.matcher(fileContent);
-		final Matcher matcherSelectorContent = patternSelectorContent.matcher(fileContent);
+		final InputStream stream = CoreFramework.class.getClassLoader().getResourceAsStream("css/Gravel.css");
+		final String content = new Scanner(stream).useDelimiter("\\Z").next();
 
-		while(matcherSelector.find())
+		final InputSource source = new InputSource(new StringReader(content));
+		final Parser parser = new ParserFactory().makeParser();
+
+		parser.setErrorHandler(new CSSParserErrorHandler());
+		parser.setDocumentHandler(this);
+
+		parser.parseStyleSheet(source);
+
+		stream.close();
+	}
+
+	@Override
+	public void charset(final String characterEncoding, final Locator locator) throws CSSException
+	{
+		throw new CSSParseException("Cannot parse @charset.", locator);
+	}
+
+	@Override
+	public void importStyle(final String uri, final SACMediaList media, final String defaultNamespaceURI, final Locator locator) throws CSSException
+	{
+		throw new CSSParseException("Cannot parse @import.", locator);
+	}
+
+	@Override
+	public void ignorableAtRule(final String atRule, final Locator locator) throws CSSException
+	{
+	}
+
+	@Override
+	public void startFontFace(final Locator locator) throws CSSException
+	{
+		throw new CSSParseException("Cannot parse @font-face.", locator);
+	}
+
+	@Override
+	public void startPage(final String name, final String pseudoPage, final Locator locator) throws CSSException
+	{
+		throw new CSSParseException("Cannot parse @page.", locator);
+	}
+
+	@Override
+	public void startMedia(final SACMediaList media, final Locator locator) throws CSSException
+	{
+		throw new CSSParseException("Cannot parse @media.", locator);
+	}
+
+	@Override
+	public void startSelector(final SelectorList selectorList, final Locator locator) throws CSSException
+	{
+		currentSelectors = selectorListToArray(selectorList);
+
+		rules.put(currentSelectors, new ArrayList<CSSDeclaration>());
+	}
+
+	@Override
+	public void property(final String name, final LexicalUnit value, final boolean important, final Locator locator)
+	{
+		final CSSDeclaration declaration = new CSSDeclaration(name, value);
+
+		if(!rules.get(currentSelectors).add(declaration))
 		{
-			if(matcherSelectorContent.find())
-			{
-				final CSSSelector selector;
-
-				String element = matcherSelector.group(matcherSelector.groupCount());
-				String content = matcherSelectorContent.group(matcherSelectorContent.groupCount());
-
-				element = element.replaceAll("\\s+", "");
-				content = content.replaceAll("\\s\\s", "");
-
-				final String[] elementSplit = element.split(":");
-				final String pseudoClass;
-
-				element = elementSplit[0];
-
-				switch(elementSplit.length)
-				{
-					case 1:
-						pseudoClass = null;
-
-						selector = new CSSSelector(element);
-						break;
-					case 2:
-						pseudoClass = elementSplit[1];
-
-						selector = new CSSSelector(element, pseudoClass);
-						break;
-					default:
-						throw new CSSParserException("Error parsing CSS.");
-				}
-
-				if(CoreFramework.debugMode)
-				{
-					System.out.println("SELECTOR=[element=" + element + ((pseudoClass == null) ? "" : ",pseudoClass=" + pseudoClass) + "]");
-				}
-
-				final String[] declarations = content.split(";");
-
-				for(final String declaration : declarations)
-				{
-					final String[] declarationSplit = declaration.split(":[\\s]?");
-					final String property = declarationSplit[0];
-					final String value = declarationSplit[1];
-
-					final boolean validProperty = isValidProperty(property);
-
-					if(validProperty)
-					{
-						selector.addDeclaration(new CSSDeclaration(property, value, ""/* TODO: getDefaultPropertyValue(property) */));
-					}
-
-					if(CoreFramework.debugMode)
-					{
-						System.out.println("\tDECLARATION=[property=" + property + ",value=" + value + ",valid=" + validProperty + "]");
-					}
-				}
-
-				// TODO: Is this really necessary?
-				if(selector == null) throw new CSSParserException("Unable to parse selector.");
-
-				selectors.add(selector);
-			} else {
-				throw new CSSParserException("Invalid CSS file.");
-			}
+			throw new CSSParseException("Rule contains a multiple of the same property.", locator);
 		}
 	}
 
 	/**
-	 * Check if the read property is valid.
-	 *
-	 * @param property The read property.
-	 * @return If the read property is valid.
+	 * The map for all the rules and their declarations.
 	 */
-	private boolean isValidProperty(final String property)
+	private final Map<Selector[], List<CSSDeclaration>> rules;
+
+	/**
+	 * The current selectors being parsed.
+	 * Also the key for the selectors map.
+	 */
+	private Selector[] currentSelectors;
+
+	/**
+	 * Converts a selectorList to a List of Selectors.
+	 *
+	 * @param selectorList The SelectorList to convert.
+	 * @return The List of Selectors.
+	 */
+	private Selector[] selectorListToArray(final SelectorList selectorList)
 	{
-		return Arrays.asList(validProperties).contains(property);
+		final Selector[] selectors = new Selector[selectorList.getLength()];
+
+		for(int i = 0; i < selectorList.getLength(); i++)
+		{
+			selectors[i] = selectorList.item(i);
+		}
+
+		return selectors;
 	}
+
+	// DO NOT TOUCH ANYTHING BELOW THIS LINE!!!
+
+	@Override
+	public void startDocument(final InputSource source) throws CSSException {}
+
+	@Override
+	public void endDocument(final InputSource source) throws CSSException {}
+
+	@Override
+	public void comment(final String text) throws CSSException {}
+
+	@Override
+	public void ignorableAtRule(final String atRule) throws CSSException {}
+
+	@Override
+	public void namespaceDeclaration(final String prefix, final String uri) throws CSSException {}
+
+	@Override
+	public void importStyle(final String uri, final SACMediaList media, final String defaultNamespaceURI) throws CSSException {}
+
+	@Override
+	public void startMedia(final SACMediaList media) throws CSSException {}
+
+	@Override
+	public void endMedia(final SACMediaList media) throws CSSException {}
+
+	@Override
+	public void startPage(final String name, final String pseudo_page) throws CSSException {}
+
+	@Override
+	public void endPage(final String name, final String pseudo_page) throws CSSException {}
+
+	@Override
+	public void startFontFace() throws CSSException {}
+
+	@Override
+	public void endFontFace() throws CSSException {}
+
+	@Override
+	public void startSelector(final SelectorList selectors) throws CSSException {}
+
+	@Override
+	public void endSelector(final SelectorList selectors) throws CSSException {}
+
+	@Override
+	public void property(final String name, final LexicalUnit value, final boolean important) throws CSSException {}
 }

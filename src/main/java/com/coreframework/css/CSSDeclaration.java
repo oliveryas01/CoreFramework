@@ -1,22 +1,22 @@
 package com.coreframework.css;
 
+import org.w3c.css.sac.LexicalUnit;
+
 /**
  * A CSS declaration object.
  */
 public final class CSSDeclaration
 {
 	/**
-	 * Constructs a CSSDeclartation.
+	 * Construct CSSDeclaration.
 	 *
 	 * @param property The declaration's property.
 	 * @param value The declaration's value.
-	 * @param defaultValue The fallback declaration's value if the declaration's value is invalid.
 	 */
-    public CSSDeclaration(final String property, final String value, final String defaultValue)
+    public CSSDeclaration(final String property, final LexicalUnit value)
     {
 		this.property = property;
 		this.value = value;
-		this.defaultValue = defaultValue;
     }
 
 	/**
@@ -25,12 +25,27 @@ public final class CSSDeclaration
 	private final String property;
 
 	/**
-	 * The declaration's value.
+	 * The declaration's value;
 	 */
-	private final String value;
+	private final LexicalUnit value;
 
 	/**
-	 * The fallback declaration's value if the declaration's value is invalid.
+	 * Get the declaration's property.
+	 *
+	 * @return The declaration's property.
 	 */
-	private final String defaultValue;
+	public String getProperty()
+	{
+		return property;
+	}
+
+	/**
+	 * Get the declaration's value.
+	 *
+	 * @return The declaration's value.
+	 */
+	public LexicalUnit getValue()
+	{
+		return value;
+	}
 }
