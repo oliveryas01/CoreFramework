@@ -35,9 +35,10 @@ public final class KeyboardEventHandler
 		{
 			final Panel testPanel = new Panel(10, 10, 100, 100);
 
-			final Label label1 = new Label("Hello World!");
-			final Button button1 = new Button("button1", label1, 0, 0, -1, -1);
+			final Label label1 = new Label("My Label");
+			final Button button1 = new Button("button1", new Label("My Button"), 0, 18, -1, -1);
 
+			testPanel.addComponent(label1);
 			testPanel.addComponent(button1);
 
 			Minecraft.getMinecraft().displayGuiScreen(testPanel);
