@@ -2,8 +2,12 @@ package com.coreframework.gui.component;
 
 import java.io.InputStream;
 
+import net.minecraft.client.renderer.GlStateManager;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import org.lwjgl.opengl.GL11;
 
 /**
  * A button component object.
@@ -61,19 +65,28 @@ public final class Button extends StyledComponent
 	{
 		if(visible)
 		{
-			if(autoSize)
+			GlStateManager.pushMatrix();
 			{
-				final int labelWidth = label.getFontRenderer().getStringWidth(label.getText());
-				final int labelHeight = label.getFontRenderer().FONT_HEIGHT;
+				GlStateManager.enableBlend();
+				GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
+				GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-				drawRect(xRelative(), yRelative(), xRelative() + labelWidth, yRelative() + labelHeight, java.awt.Color.white.getRGB());
-				drawRect(xRelative() + 1, yRelative() + 1, xRelative() + labelWidth - 1, yRelative() + labelHeight - 1, java.awt.Color.black.getRGB());
-			} else {
-				drawRect(xRelative(), yRelative(), xRelative() + width, yRelative() + height, java.awt.Color.white.getRGB());
-				drawRect(xRelative() + 1, yRelative() + 1, xRelative() + width - 1, yRelative() + height - 1, java.awt.Color.black.getRGB());
+				if(autoSize)
+				{
+					final int labelWidth = label.getFontRenderer().getStringWidth(label.getText());
+					final int labelHeight = label.getFontRenderer().FONT_HEIGHT;
+
+					drawRect(xRelative(), yRelative(), xRelative() + labelWidth, yRelative() + labelHeight, java.awt.Color.white.getRGB());
+					drawRect(xRelative() + 1, yRelative() + 1, xRelative() + labelWidth - 1, yRelative() + labelHeight - 1, java.awt.Color.black.getRGB());
+				} else
+				{
+					drawRect(xRelative(), yRelative(), xRelative() + width, yRelative() + height, java.awt.Color.white.getRGB());
+					drawRect(xRelative() + 1, yRelative() + 1, xRelative() + width - 1, yRelative() + height - 1, java.awt.Color.black.getRGB());
+				}
+
+				label.render();
 			}
-
-			label.render();
+			GlStateManager.popMatrix();
 		}
 	}
 
