@@ -137,7 +137,7 @@ public abstract class Component extends Gui
 	{
 		if(parent instanceof Component)
 		{
-			return ((Component)parent).x + x;
+			return ((Component)parent).xRelative() + x;
 		} else if(parent instanceof Panel) {
 			return ((Panel)parent).getX() + x;
 		} else {
@@ -156,7 +156,7 @@ public abstract class Component extends Gui
 	{
 		if(parent instanceof Component)
 		{
-			return ((Component)parent).y + y;
+			return ((Component)parent).yRelative() + y;
 		} else if(parent instanceof Panel) {
 			return ((Panel)parent).getY() + y;
 		} else {

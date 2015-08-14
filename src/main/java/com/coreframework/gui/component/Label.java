@@ -147,4 +147,14 @@ public final class Label extends StyledComponent
 
 		onTextChanged(oldText, text);
 	}
+
+	public void setFontRenderer(final FontRenderer fontRenderer)
+	{
+		this.fontRenderer = fontRenderer;
+	}
+
+	public FontRenderer getFontRenderer()
+	{
+		return fontRenderer;
+	}
 }
