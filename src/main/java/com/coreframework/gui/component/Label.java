@@ -82,9 +82,11 @@ public final class Label extends StyledComponent
 	@Override
 	public void initialize()
 	{
-		color = Color.white;
-
 		fontRenderer = mc.fontRendererObj;
+
+		// TODO: Style.
+
+		color = Color.white;
 	}
 
 	/**
