@@ -134,19 +134,6 @@ public final class CoreFramework
 		FATALERROR
 	}
 
-	public static void print(final Object object, final Level level)
-	{
-		if(level.name().equals("DEBUG"))
-		{
-			if(debugMode)
-			{
-				System.out.print("[CoreFramework][" + level.name() + "] " + object);
-			}
-		} else {
-			System.out.print("[CoreFramework][" + level.name() + "] " + object);
-		}
-	}
-
 	public static void println(final Object object, final Level level)
 	{
 
@@ -154,16 +141,11 @@ public final class CoreFramework
 		{
 			if(debugMode)
 			{
-				System.out.println("[CoreFramework][" + level.name() + "] " + object);
+				System.out.println("[" + NAME + "][" + level.name() + "] " + object);
 			}
 		} else {
-			System.out.println("[CoreFramework][" + level.name() + "] " + object);
+			System.out.println("[" + NAME + "][" + level.name() + "] " + object);
 		}
-	}
-
-	public static void print(final Object object)
-	{
-		print(object, Level.INFO);
 	}
 
 	public static void println(final Object object)
