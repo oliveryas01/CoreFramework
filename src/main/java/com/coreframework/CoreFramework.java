@@ -128,6 +128,7 @@ public final class CoreFramework
 	public static enum Level
 	{
 		INFO,
+		DEBUG,
 		WARNING,
 		ERROR,
 		FATALERROR
