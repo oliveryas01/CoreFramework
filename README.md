@@ -6,7 +6,7 @@ Key Features
 ------------
 * Fully functional graphical framework.
 * Extensive, flexible and programmable CLI.
-* CSS component styling (theming).
+* CSS component styling (loosely based on JavaFX).
 * General expandability.
 
 License
