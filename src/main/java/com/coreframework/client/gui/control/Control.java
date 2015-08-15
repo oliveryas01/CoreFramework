@@ -16,4 +16,8 @@ public abstract class Control extends Region
 	{
 		super(name);
 	}
+
+	/** {@inheritDoc} */
+	@Override
+	public String id() { return "control"; }
 }
