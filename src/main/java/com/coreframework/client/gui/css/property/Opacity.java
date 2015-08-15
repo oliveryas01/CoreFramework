@@ -20,7 +20,7 @@ public final class Opacity extends Property
 
 	/** {@inheritDoc} */
 	@Override
-	public Object[] parse(final com.steadystate.css.dom.Property declaration)
+	public void parse(final com.steadystate.css.dom.Property declaration)
 	{
 		super.parse(declaration);
 
@@ -40,6 +40,9 @@ public final class Opacity extends Property
 			}
 		}
 
-		return values;
+		for(final Object value0 : values)
+		{
+			this.values.add(value0);
+		}
 	}
 }

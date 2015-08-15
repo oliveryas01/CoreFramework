@@ -4,6 +4,9 @@ import org.w3c.css.sac.CSSException;
 
 import org.w3c.dom.css.CSSPrimitiveValue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A CSS property.
  */
@@ -12,7 +15,15 @@ public abstract class Property
 	/**
 	 * Default constructor.
 	 */
-    public Property() {}
+    public Property()
+	{
+		values = new ArrayList<Object>();
+	}
+
+	/**
+	 * The list of parsed values.
+	 */
+	protected final List<Object> values;
 
 	/**
 	 * The list of properties to parse.
@@ -32,7 +43,7 @@ public abstract class Property
 	 * @param declaration The declaration.
 	 * @return An array of the parsed values.
 	 */
-	public Object[] parse(final com.steadystate.css.dom.Property declaration)
+	public void parse(final com.steadystate.css.dom.Property declaration)
 	{
 		boolean validProperty = false;
 
@@ -60,7 +71,7 @@ public abstract class Property
 			throw new CSSException("Cannot parse initial.");
 		}
 
-		return null;
+		values.clear();
 	}
 
 	/**
@@ -71,5 +82,15 @@ public abstract class Property
 	public final String[] getProperties()
 	{
 		return properties();
+	}
+
+	/**
+	 * Get the list of parsed values.
+	 *
+	 * @return The list of parsed values.
+	 */
+	public final List<Object> getValues()
+	{
+		return values;
 	}
 }
