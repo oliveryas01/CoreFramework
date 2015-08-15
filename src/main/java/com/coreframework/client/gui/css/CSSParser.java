@@ -90,12 +90,13 @@ public final class CSSParser implements DocumentHandlerExt
 
 		// TODO: Remove code below this comment because it is test code.
 
+		final com.coreframework.client.gui.css.property.Opacity opacity = new com.coreframework.client.gui.css.property.Opacity();
+		opacity.parse(getDeclaration("#label", "opacity"));
+		System.out.println("Opacity: " + opacity.getValues().get(0));
+
 		final com.coreframework.client.gui.css.property.Color color = new com.coreframework.client.gui.css.property.Color();
-
 		color.parse(getDeclaration("#label", "color"));
-
 		final com.coreframework.client.gui.color.Color color0 = (com.coreframework.client.gui.color.Color)color.getValues().get(0);
-
 		System.out.println("Red: " + color0.getRed() + ", Green: " + color0.getGreen() + ", Blue: " + color0.getBlue());
 	}
 
