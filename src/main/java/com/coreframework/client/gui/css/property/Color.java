@@ -20,7 +20,10 @@ public class Color extends Property
 	@Override
 	protected Object[] values()
 	{
-		return new Object[] {com.coreframework.client.gui.color.Color.class};
+		return new Object[] {
+				com.coreframework.client.gui.color.Color.class,
+				Boolean.class
+		};
 	}
 
 	/** {@inheritDoc} */
@@ -33,22 +36,29 @@ public class Color extends Property
 
 		final CSSValueImpl value = (CSSValueImpl)declaration.getValue();
 
-		if(value.getPrimitiveType() != CSSPrimitiveValue.CSS_RGBCOLOR) throw new CSSException("Colors must be in the rgb format.");
-
-		final RGBColor color = value.getRGBColorValue();
-
-		if(color.getRed().getPrimitiveType() != CSSPrimitiveValue.CSS_NUMBER ||
-				color.getGreen().getPrimitiveType() != CSSPrimitiveValue.CSS_NUMBER ||
-				color.getBlue().getPrimitiveType() != CSSPrimitiveValue.CSS_NUMBER)
+		if(value.getPrimitiveType() == CSSPrimitiveValue.CSS_IDENT && value.getStringValue().equals("transparent"))
 		{
-			throw new CSSException("RGB values must be numbers.");
+			values[0] = new com.coreframework.client.gui.color.Color(0, 0, 0, 0);
+			values[1] = true;
+		} else {
+			if(value.getPrimitiveType() != CSSPrimitiveValue.CSS_RGBCOLOR) throw new CSSException("Colors must be in the rgb format.");
+
+			final RGBColor color = value.getRGBColorValue();
+
+			if(color.getRed().getPrimitiveType() != CSSPrimitiveValue.CSS_NUMBER ||
+					color.getGreen().getPrimitiveType() != CSSPrimitiveValue.CSS_NUMBER ||
+					color.getBlue().getPrimitiveType() != CSSPrimitiveValue.CSS_NUMBER)
+			{
+				throw new CSSException("RGB values must be numbers.");
+			}
+
+			final int red = (int) color.getRed().getFloatValue(CSSPrimitiveValue.CSS_NUMBER);
+			final int green = (int) color.getGreen().getFloatValue(CSSPrimitiveValue.CSS_NUMBER);
+			final int blue = (int) color.getBlue().getFloatValue(CSSPrimitiveValue.CSS_NUMBER);
+
+			values[0] = new com.coreframework.client.gui.color.Color(red, green, blue);
+			values[1] = false;
 		}
-
-		final int red = (int)color.getRed().getFloatValue(CSSPrimitiveValue.CSS_NUMBER);
-		final int green = (int)color.getGreen().getFloatValue(CSSPrimitiveValue.CSS_NUMBER);
-		final int blue = (int)color.getBlue().getFloatValue(CSSPrimitiveValue.CSS_NUMBER);
-
-		values[0] = new com.coreframework.client.gui.color.Color(red, green, blue);
 
 		for(int i = 0; i < values.length; i++)
 		{
