@@ -10,7 +10,7 @@ import com.steadystate.css.dom.CSSValueImpl;
 /**
  * A CSS "color" object.
  */
-public final class Color extends Property
+public class Color extends Property
 {
 	/** {@inheritDoc} */
 	@Override
