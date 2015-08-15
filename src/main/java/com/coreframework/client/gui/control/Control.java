@@ -1,0 +1,19 @@
+package com.coreframework.client.gui.control;
+
+import com.coreframework.client.gui.layout.Region;
+
+/**
+ * Base class for all controls.
+ */
+public abstract class Control extends Region
+{
+	/**
+	 * Construct a Control.
+	 *
+	 * @param name The name of the Control.
+	 */
+	protected Control(final String name)
+	{
+		super(name);
+	}
+}
