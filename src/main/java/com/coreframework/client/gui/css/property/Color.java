@@ -7,8 +7,6 @@ import org.w3c.dom.css.RGBColor;
 
 import com.steadystate.css.dom.CSSValueImpl;
 
-import java.util.List;
-
 /**
  * A CSS "color" object.
  */
