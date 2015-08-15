@@ -42,10 +42,10 @@ public class CFCommonProxy
 		{
 			if(!VersionChecker.isLatestVersion())
 			{
-				CoreFramework.instance.println("Update available!");
+				CoreFramework.println("Update available!");
 			}
 		} catch(final IOException e) {
-			CoreFramework.instance.println("Version check was cancelled.", CoreFramework.Level.WARNING);
+			CoreFramework.println("Version check was cancelled.", CoreFramework.Level.WARNING);
 		}
 	}
 }

@@ -118,7 +118,7 @@ public final class CoreFramework
 	 * @param object The output.
 	 * @param level The level of importance.
 	 */
-	public void println(final Object object, final Level level)
+	public static void println(final Object object, final Level level)
 	{
 		if(level.name().equals("DEBUG"))
 		{
@@ -136,7 +136,7 @@ public final class CoreFramework
 	 *
 	 * @param object The output.
 	 */
-	public void println(final Object object)
+	public static void println(final Object object)
 	{
 		println(object, Level.INFO);
 	}
