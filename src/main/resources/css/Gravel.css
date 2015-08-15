@@ -45,14 +45,50 @@
  **************************************************/
 
 #region {
+    visibility: visible;
+
     background-color: transparent;
 
     border: none;
+
+    padding: 0;
+
+    resize: both;
 }
 
 #pane {
+    visibility: visible;
+
+    background-color: transparent;
+
+    border: none;
+
+    padding: 0;
+
+    resize: both;
+}
+
+#control {
+    visibility: visible;
+
+    background-color: transparent;
+
+    border: none;
+
+    padding: 0;
+
+    resize: both;
 }
 
 #label {
+    visibility: visible;
+
     color: rgb(0, 0, 0);
+    background-color: transparent;
+
+    border: none;
+
+    padding: 0;
+
+    resize: both;
 }
