@@ -41,7 +41,6 @@ public abstract class Property
 	 * Parse the declaration.
 	 *
 	 * @param declaration The declaration.
-	 * @return An array of the parsed values.
 	 */
 	public void parse(final com.steadystate.css.dom.Property declaration)
 	{
