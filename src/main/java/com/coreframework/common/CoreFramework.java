@@ -1,5 +1,5 @@
 package com.coreframework.common;
-import net.minecraftforge.common.config.Configuration;
+
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 
@@ -18,7 +18,7 @@ public final class CoreFramework
 	/**
 	 * For debugging.
 	 */
-	public static boolean debugMode;
+	public static boolean debugMode = true;
 
 	/**
 	 * Mod ID.
