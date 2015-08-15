@@ -3,7 +3,7 @@
   "modid": "coreframework",
   "name": "CoreFramework",
   "description": "A framework built on Forge to enhance your mod creation.",
-  "version": "1.0.0",
+  "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "https://github.com/oliveryas01/CoreFramework",
