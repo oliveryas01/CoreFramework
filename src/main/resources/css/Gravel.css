@@ -44,19 +44,6 @@
  * - resize                                       *
  **************************************************/
 
-#region {
-    visibility: visible;
-    opacity: 1;
-
-    background-color: transparent;
-
-    border: none;
-
-    padding: 0;
-
-    resize: both;
-}
-
 #pane {
     visibility: visible;
     opacity: 1;
