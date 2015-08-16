@@ -13,6 +13,9 @@ import com.coreframework.util.VersionChecker;
  */
 public class CFCommonProxy
 {
+	/**
+	 * Default constructor.
+	 */
     public CFCommonProxy() {}
 
 	/**
