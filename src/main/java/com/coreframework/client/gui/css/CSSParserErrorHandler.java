@@ -9,7 +9,7 @@ import com.coreframework.common.CoreFramework;
 /**
  * Handles errors when parsing a stylesheet.
  */
-public final class CSSParserErrorHandler implements ErrorHandler
+final class CSSParserErrorHandler implements ErrorHandler
 {
 	/**
 	 * Default constructor.
