@@ -21,4 +21,15 @@ public abstract class Pane extends Region
 	{
 		return "pane";
 	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void initialize()
+	{
+	}
+
+	/**
+	 * Render the pane.
+	 */
+	public abstract void render();
 }

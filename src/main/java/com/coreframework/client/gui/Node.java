@@ -25,6 +25,13 @@ abstract class Node implements Styleable
 	protected String name;
 
 	/**
+	 * Initialize the Node.
+	 *
+	 * Parse your CSS properties here.
+	 */
+	public void initialize() {}
+
+	/**
 	 * Get the list of CSS classes.
 	 *
 	 * @return The list of CSS classes.

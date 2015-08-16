@@ -20,4 +20,15 @@ public abstract class Control extends Region
 	/** {@inheritDoc} */
 	@Override
 	public String id() { return "control"; }
+
+	/** {@inheritDoc} */
+	@Override
+	public void initialize()
+	{
+	}
+
+	/**
+	 * Render the control.
+	 */
+	public abstract void render();
 }
